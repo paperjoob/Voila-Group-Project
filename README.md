@@ -1,39 +1,34 @@
-# Project Voila
-This version uses React, Redux, Express, Passport, and PostgreSQL (a full list of dependencies can be found in `package.json`).
+# Voila Home Buying Tracker
 
-We **STRONGLY** recommend following these instructions carefully. It's a lot, and will take some time to set up, but your life will be much easier this way in the long run.
+The Voila Home Buying App is a mobile-first web application that guides home-buyers step-by-step through the process of purchasing a home. The application allows users to track exactly what step they are on, what is coming next, and what documents are needed in order to progress. These documents are all stored in one location: the Voila Vault, a personalized dropbox for the user. From the app, buyers can request showings, make offers, and schedule appraisals and inspections. Agents can upload all the relevant documents and manage multiple clients’ journeys in one place. Agents can also add, update, and remove additional clients, other agents or team members, and vendors such as insurance agents, inspectors, and so on.
+​
+## Built With
+​
+React, Redux, Redux-sagas, Express, Passport, PostgreSQL, Nodemailer, SweetAlerts2, and Material UI
 
-## Download (Don't Clone) This Repository
-
-* Don't Fork or Clone. Instead, click the `Clone or Download` button and select `Download Zip`.
-* Unzip the project and start with the code in that folder.
-* Create a new GitHub project and push this code to the new repository.
-
-## Prerequisites
-
-Before you get started, make sure you have the following software installed on your computer:
-
+for a full list of dependencies, please see the package.json file.
+​
+## Getting Started
+​
+These instructions will get you a copy of the project up and running on your local machine for development purposes. See deployment for notes on how to deploy the project on a live system.
+​
+### Prerequisites
+​
 - [Node.js](https://nodejs.org/en/)
 - [PostrgeSQL](https://www.postgresql.org/)
 - [Nodemon](https://nodemon.io/)
+​
 
-## Create database and table
+### Create database and table​s
 
-Create a new database in PostgreSQL called `voila` and create the necessary tables listed in the database.sql file. 
-An example table is the `user` table:
+* Create a datbase named 'voila'. If you would like to name your database something else, you will need to change `voila` to the name of your new database name in `server/modules/pool.js`
+* See the database.sql files for the tables and initial data to set up your database. 
 
-```SQL
-CREATE TABLE "user" (
-    "id" SERIAL PRIMARY KEY,
-    "username" VARCHAR (80) UNIQUE NOT NULL,
-    "password" VARCHAR (1000) NOT NULL
-);
-```
+​
+### Installing
 
-If you would like to name your database something else, you will need to change `voila` to the name of your new database name in `server/modules/pool.js`
-
-## Development Setup Instructions
-
+* Open a new terminal window
+* Navigate to the project directory path
 * Run `npm install`
 * Create a `.env` file at the root of the project and paste this line into the file:
     ```
@@ -41,26 +36,70 @@ If you would like to name your database something else, you will need to change 
     ```
     While you're in your new `.env` file, take the time to replace `superDuperSecret` with some long random string like `25POUbVtx6RKVNWszd9ERB9Bb6` to keep your application secure. Here's a site that can help you: [https://passwordsgenerator.net/](https://passwordsgenerator.net/). If you don't do this step, create a secret with less than eight characters, or leave it as `superDuperSecret`, you will get a warning.
 * Start postgres if not running already by using `brew services start postgresql`
-* Run `npm run server`
-* Run `npm run client`
+* In a terminal window, type `npm run server`
+* In another terminal window, type `npm run client`
 * Navigate to `localhost:3000`
+​
+### Initial Setup - admin
 
-## Debugging
+This application is designed so that the main administrator is the one who creates all other users through the admin dashboard. To initialize an administrator for first log-in navagate to http://localhost:3000/#/register to register. For production code, remove the code in app.js that navigates to this register page. 
 
-To debug, you will need to run the client-side separately from the server. Start the client by running the command `npm run client`. Start the debugging server by selecting the Debug button.
+### Setting Up Nodemailer
+* Steps for using Nodemailer to send email:
+    - Make sure you have run `npm install`, "nodemailer" should be located in dependencies in package.json file
+    - Add to your `.env` file:
+        - EMAIL = (your email here) 
+        - PASSWORD = (your email password here)
+    - Note: `.env` file does not get pushed up to Github
+    - This will authorize transporter object in `node.mailer.router.js` to send/receive email from your account (where you see process.env.EMAIL and process.env.PASSWORD)
+    - With the way Google's email security works, you will need to go to this address [https://myaccount.google.com/lesssecureapps] and toggle "Allow less secure apps" to ON for your account in order to use Nodemailer. More information can be found here: [https://community.nodemailer.com/using-gmail/].
+​
+​
+### Completed Features
+​
+- [x] Admin can create new clients and administrators
+- [x] Admin can update and delete client and administrator information
+- [x] Admin can add, update and delete vendors 
+- [x] Admin can view each client's individual byuer journey and update step completion status
+- [x] Buyer can view individualized buyer journey steps and whether or not each step is complete
+- [x] Buyer can view vendor lists for inspection and insurance vendors
+- [x] Buyer can add their individual insurance and inspection information when booked
+- [x] Buyer can update home buying criteria, request showings and request to make an offer on a home
+- [x] Admin will receive email when buyer updates buying criteria, requests showing or requests to make an offer
+- [x] Admin can enter in details for final walk-through and closing day for buyer to view
+- [x] Each user can update/change their password 
+- [x] Buyer can view information about each step in the buying process
 
-![VSCode Toolbar](documentation/images/vscode-toolbar.png)
-
-Then make sure `Launch Program` is selected from the dropdown, then click the green play arrow.
-
-![VSCode Debug Bar](documentation/images/vscode-debug-bar.png)
-
+​
+### Next Steps
+​
+Features that you would like to add at some point in the future.
+​
+- [ ] Add the Seller's journey
+​
 ## Deployment
-
+​
 1. Create a new Heroku project
-1. Link the Heroku project to the project GitHub Repo
-1. Create an Heroku Postgres database
-1. Connect to the Heroku Postgres database from Postico
-1. Create the necessary tables
-1. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
-1. In the deploy section, select manual deploy
+2. Link the Heroku project to the project GitHub Repo
+3. Create an Heroku Postgres database
+4. Connect to the Heroku Postgres database from Postico
+5. Create the necessary tables
+6. Add an environment variable for `SERVER_SESSION_SECRET` with a nice random string for security
+7. In the deploy section, select manual deploy
+​
+## Authors
+​
+* Mike Lynch
+* Khou Thao
+* Ryan McCartan
+* See Yang
+* Naomi Price
+​
+​
+## Acknowledgments
+​
+* Thank you to Prime Digital Academy for teaching us all we know and letting us soar. 
+
+
+
+
